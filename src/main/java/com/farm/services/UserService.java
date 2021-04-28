@@ -37,7 +37,7 @@ public class UserService {
 	}
 
 
-	
+
 	public User getOneByContactPrimary(String contactPrimary) {
 		System.out.println(contactPrimary);
 		return userRepository.findByContactPrimary(contactPrimary);
@@ -60,7 +60,7 @@ public class UserService {
 		existingUser.setUsername(user.getUsername() != null ? user.getUsername() : existingUser.getUsername());
 		existingUser.setContactPrimary(user.getContactPrimary() != null ? user.getContactPrimary() : existingUser.getContactPrimary());
 		existingUser.setContactSecondary(user.getContactSecondary() != null ? user.getContactSecondary() : existingUser.getContactSecondary());
-	
+
 		return userRepository.save(existingUser);
 	}
 
@@ -92,10 +92,10 @@ public class UserService {
 	}
 
 	public User changepassword(User user, @Valid ChangePassword passwords) {
-		
-		
-			
-		
+
+
+
+
 		return null ;
 	}
 
@@ -109,5 +109,5 @@ public class UserService {
 
 	}
 
-	
+
 

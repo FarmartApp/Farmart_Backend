@@ -26,7 +26,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 
 	User getOneByIdAndDeletedAtNull(Integer id);
-	
+
 	@Query(value = "UPDATE users SET  token=null  WHERE id=:id" , nativeQuery = true)
 	@Modifying
     @Transactional
