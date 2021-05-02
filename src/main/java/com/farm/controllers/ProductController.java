@@ -1,18 +1,11 @@
 
 package com.farm.controllers;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.Principal;
-import java.util.Random;
 
-import javax.validation.Valid;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,21 +29,32 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.farm.entities.Product;
+import com.farm.entities.User;
 import com.farm.services.ProductService;
 import com.farm.settings.Constants;
+import com.farm.services.UserService;
 import com.farm.settings.FarmGenericResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 @RestController
 @RequestMapping(Constants.BASE_URI)
 public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private UserService userService;
 
 
 	@PostMapping("/product")
-	public ResponseEntity<?> aProduct(@RequestBody Product product) {
+	public ResponseEntity<?> addProduct(@RequestBody Product product) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		User user = userService.getOneByEmail(email);
 
 
+		System.out.println(user.getId());
+		product.setUser(user);
 		Product saveUser = productService.saveProduct(product);
 		return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_SUCCESS).msg("Product added successfully!!!")
 				.statusCode(Constants.HTTP_SUCCESS_CODE).isSuccess(Constants.HTTP_RESULT_SUCCESS_BOOL).data(saveUser)
