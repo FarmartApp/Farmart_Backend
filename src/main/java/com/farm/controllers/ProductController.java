@@ -32,10 +32,14 @@ import com.farm.entities.Product;
 import com.farm.entities.User;
 import com.farm.services.ProductService;
 import com.farm.settings.Constants;
+import com.farm.settings.Pagination;
 import com.farm.services.UserService;
 import com.farm.settings.FarmGenericResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.List;
+
 @RestController
 @RequestMapping(Constants.BASE_URI)
 public class ProductController {
@@ -60,25 +64,32 @@ public class ProductController {
 				.statusCode(Constants.HTTP_SUCCESS_CODE).isSuccess(Constants.HTTP_RESULT_SUCCESS_BOOL).data(saveUser)
 				.entity();
 
-	}}
+	}
 
-//	@GetMapping("/users")
-//	public ResponseEntity<?> getAllUsers(@RequestParam(defaultValue = "0", required = false) Integer page) {
-//		try {
-//
-//			Page<?> getUser = userService.getAllUsers(Pagination.paginationRequest(page));
-//			return ApptimusGenericResponse.builder().status(Constants.HTTP_RESULT_SUCCESS)
-//					.msg("Users get successfully!").statusCode(Constants.HTTP_SUCCESS_CODE)
-//					.isSuccess(Constants.HTTP_RESULT_SUCCESS_BOOL).data(Pagination.paginatedData(getUser)).entity();
-//
-//		} catch (Exception e) {
-//
-//			return ApptimusGenericResponse.builder().status(Constants.HTTP_RESULT_FAILED)
-//					.msg(Constants.HTTP_EXPECTATION_FAILED_MESSAGE).statusCode(Constants.HTTP_EXPECTATION_FAILED_CODE)
-//					.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error(e.toString()).entity();
-//		}
-//	}
-//
+	@GetMapping("/product")
+	public ResponseEntity<?> getAllProductofUser() {
+		try {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String email = authentication.getName();
+			User user = userService.getOneByEmail(email);
+			List<Product> pro = productService.getAllProducts(user.getId());
+			for (Product prone :pro)
+			{
+				System.out.println(prone.getId());
+			}
+
+			return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_SUCCESS)
+					.msg("Products get successfully!").statusCode(Constants.HTTP_SUCCESS_CODE)
+					.isSuccess(Constants.HTTP_RESULT_SUCCESS_BOOL).data(pro).entity();
+
+		} catch (Exception e) {
+
+			return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_FAILED)
+					.msg(Constants.HTTP_EXPECTATION_FAILED_MESSAGE).statusCode(Constants.HTTP_EXPECTATION_FAILED_CODE)
+					.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error(e.toString()).entity();
+		}
+	}
+
 //	@PutMapping("/change-password")
 //	public ResponseEntity<?> changepassword(@Valid @RequestBody ChangePassword passwords) {
 //		 String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -374,4 +385,4 @@ public class ProductController {
 //
 //
 
-
+}

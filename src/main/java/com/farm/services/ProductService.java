@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.farm.entities.Product;
 import com.farm.entities.requestbodies.ChangePassword;
 import  com.farm.repositories.ProductRepository;
+import java.util.List;
 
 
 @Service
@@ -27,7 +28,7 @@ public class ProductService {
 
 		return productRepository.save(product);
 	}
-}
+
 
 //	public User getOneById(Integer id) {
 //		return userRepository.findById(id).orElse(null);
@@ -43,9 +44,9 @@ public class ProductService {
 //		System.out.println(contactPrimary);
 //		return userRepository.findByContactPrimary(contactPrimary);
 //	}
-//	public Page<User> getAllUsers(Pageable pageable) {
-//		return userRepository.findAll(pageable);
-//	}
+	public List<Product> getAllProducts(Integer id) {
+		return productRepository.findProductsForUser(id);
+	}
 //
 //	public User updateUser(Integer id, User user) {
 //		User existingUser = userRepository.findById(id).orElse(null);
@@ -112,3 +113,4 @@ public class ProductService {
 //
 //
 //
+}

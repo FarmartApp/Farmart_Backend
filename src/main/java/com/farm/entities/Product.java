@@ -251,5 +251,8 @@ public class Product implements Serializable {
 		this.user = user;
 
 	}
+	public Product(){
+		super();
+	}
 
 }
