@@ -15,6 +15,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
    List<Product>findProductsForUser(Integer id);
 
 
+    @Query(value = "SELECT * from  products p where " +
+            "p.deleted_at is null  and (:search is null or (p.name like %:search% or p.location like %:search% or p.product_type like %:search% ))" +
+            "and(:date is false or (cast(created_at AS DATE) = current_date))" +
+            "and(:type is null or(:type = p.product_type))" , nativeQuery = true)
+    List<Product> findFilterPro(String search,Boolean date,String type);
 
 
 

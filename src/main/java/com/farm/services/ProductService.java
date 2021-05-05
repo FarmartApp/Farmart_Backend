@@ -28,7 +28,10 @@ public class ProductService {
 
 		return productRepository.save(product);
 	}
+	public List<Product> filterProduct(String search,Boolean date,String type){
 
+		return productRepository.findFilterPro(search,date,type);
+	}
 
 //	public User getOneById(Integer id) {
 //		return userRepository.findById(id).orElse(null);

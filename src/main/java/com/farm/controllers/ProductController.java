@@ -38,7 +38,11 @@ import com.farm.settings.FarmGenericResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import java.util.List;
+import  java.util.Calendar;
 
 @RestController
 @RequestMapping(Constants.BASE_URI)
@@ -67,7 +71,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/product")
-	public ResponseEntity<?> getAllProductofUser() {
+	public ResponseEntity<?> getAllProductOfUser() {
 		try {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String email = authentication.getName();
@@ -81,6 +85,30 @@ public class ProductController {
 			return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_SUCCESS)
 					.msg("Products get successfully!").statusCode(Constants.HTTP_SUCCESS_CODE)
 					.isSuccess(Constants.HTTP_RESULT_SUCCESS_BOOL).data(pro).entity();
+
+		} catch (Exception e) {
+
+			return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_FAILED)
+					.msg(Constants.HTTP_EXPECTATION_FAILED_MESSAGE).statusCode(Constants.HTTP_EXPECTATION_FAILED_CODE)
+					.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error(e.toString()).entity();
+		}
+	}
+	@GetMapping("/productFilter")
+	public ResponseEntity<?> getAllProductWithFilter(@RequestParam(required = false) String search, @RequestParam(required = false,defaultValue="false") Boolean date,
+	@RequestParam(required = false) String type){
+		try {
+			Date currentUtilDate = new Date();
+			Calendar currentUtilCalendar = Calendar.getInstance();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			System.out.println(formatter.format(currentUtilCalendar.getTime()));
+			String abc=formatter.format(currentUtilCalendar.getTime());
+
+				List<Product> prolist= productService.filterProduct(search,date,type);
+
+
+			return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_SUCCESS)
+					.msg("Products get successfully!").statusCode(Constants.HTTP_SUCCESS_CODE)
+					.isSuccess(Constants.HTTP_RESULT_SUCCESS_BOOL).data(prolist).entity();
 
 		} catch (Exception e) {
 
