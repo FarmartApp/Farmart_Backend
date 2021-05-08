@@ -21,6 +21,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "and(:type is null or(:type = p.product_type))" , nativeQuery = true)
     List<Product> findFilterPro(String search,Boolean date,String type);
 
+    @Query(value = "SELECT * from  products where id=:id and deleted_at is null" , nativeQuery = true)
+    Product findByIdd(Integer id);
 
 
 }

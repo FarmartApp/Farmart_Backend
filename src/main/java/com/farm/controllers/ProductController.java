@@ -117,7 +117,35 @@ public class ProductController {
 					.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error(e.toString()).entity();
 		}
 	}
+	@GetMapping("/product/{id}")
+	public ResponseEntity<?> getSingleProduct(@PathVariable Integer id){
+		try {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String email = authentication.getName();
+			User user = userService.getOneByEmail(email);
 
+
+			Product prosing= productService.getSinglePro(id);
+					if(prosing==null){
+						return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_FAILED)
+								.msg(Constants.HTTP_EXPECTATION_FAILED_MESSAGE).statusCode(Constants.HTTP_EXPECTATION_FAILED_CODE)
+								.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error("there are no product for this id").entity();
+					}
+			prosing= productService.getSinglePro(id);
+			System.out.println("hello");
+			System.out.println(prosing.getCreatedAt());
+
+			return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_SUCCESS)
+					.msg("Products get successfully!").statusCode(Constants.HTTP_SUCCESS_CODE)
+					.isSuccess(Constants.HTTP_RESULT_SUCCESS_BOOL).data(prosing).entity();
+
+		} catch (Exception e) {
+
+			return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_FAILED)
+					.msg(Constants.HTTP_EXPECTATION_FAILED_MESSAGE).statusCode(Constants.HTTP_EXPECTATION_FAILED_CODE)
+					.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error(e.toString()).entity();
+		}
+	}
 //	@PutMapping("/change-password")
 //	public ResponseEntity<?> changepassword(@Valid @RequestBody ChangePassword passwords) {
 //		 String email = SecurityContextHolder.getContext().getAuthentication().getName();

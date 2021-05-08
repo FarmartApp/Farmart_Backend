@@ -32,6 +32,9 @@ public class ProductService {
 
 		return productRepository.findFilterPro(search,date,type);
 	}
+	public  Product getSinglePro(Integer id){
+		return productRepository.findByIdd(id);
+	}
 
 //	public User getOneById(Integer id) {
 //		return userRepository.findById(id).orElse(null);
