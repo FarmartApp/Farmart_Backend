@@ -93,7 +93,7 @@ public class Product implements Serializable {
 
 	@Column(name = "created_at")
 	@CreationTimestamp
-	@JsonIgnore
+
 	private Calendar createdAt;
 
 	@Column(name = "updated_at")
