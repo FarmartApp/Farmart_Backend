@@ -103,11 +103,21 @@ public class UserService {
 		userRepository.deleteToken(id);
 		return "user logout successfully!!!";
 	}
+	public User updateUserpic(Integer id, User user) {
+		User existingUser = userRepository.findById(id).orElse(null);
+		if (existingUser == null) {
+			return null;
+		}
+		existingUser.setAvatar(user.getAvatar2() !=null ? user.getAvatar2():existingUser.getAvatar2());
 
-
-
-
+		return userRepository.save(existingUser);
 	}
+
+
+
+
+
+}
 
 
 

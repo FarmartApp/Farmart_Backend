@@ -24,7 +24,7 @@ public class FileStore {
 	private String urlDepartmentImage;
 	
 	
-	@Value("${com.apptimus.user.avatar}")
+	@Value("${com.farm.user.avatar}")
 	private String urlUseravatar;
 	
 	@Value("${com.apptimus.user.cover_image}")
@@ -220,7 +220,7 @@ public class FileStore {
 			String imageName =  UUID.randomUUID().toString().replaceAll("-", "") + extension ;
 			try {
 				
-				 OutputStream os = new FileOutputStream(urlUseravatar + imageName);
+				 OutputStream os = new FileOutputStream(urlusercover + imageName);
 				 os.write(avatar.getBytes());
 				 os.close();
 				return new FileSaveResponse(imageName ,null,true);
@@ -230,7 +230,7 @@ public class FileStore {
 			
 			
 		} catch (Exception e) {
-			//System.out.println("is null");
+			System.out.println("is null");
 			return new FileSaveResponse(null,e.toString(),false);
 		}
 		

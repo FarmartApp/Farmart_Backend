@@ -231,6 +231,7 @@ public class User implements Serializable {
 		return contactPrimary;
 	}
 
+
 	public void setContactPrimary(String contactPrimary) {
 		this.contactPrimary = contactPrimary;
 	}
@@ -244,8 +245,20 @@ public class User implements Serializable {
 	}
 
 	public String getAvatar() {
+		if(avatar==null) {
+			return avatar;
+		}
+		final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+		final String baseUri = Constants.BASE_URI+"/users/avatar/";
+		String  uurl=baseUrl+baseUri+avatar;
+		return uurl;
+
+
+	}
+	public String getAvatar2() {
 		return avatar;
 	}
+
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
