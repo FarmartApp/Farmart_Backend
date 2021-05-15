@@ -165,17 +165,17 @@ public class ProductController {
 				.entity();
 
 	}
-	@GetMapping("/product/{id}")
+	@GetMapping("/transport/{id}")
 	public ResponseEntity<?> getTransportOfUser(@PathVariable Integer id){
 		try {
-			System.out.println("keerthy7hjk7keerthy");
+
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String email = authentication.getName();
 			User user = userService.getOneByEmail(email);
 
 
-			Product prosing= productService.getSinglePro(id);
-			if(prosing==null){
+			Transport transpo= transportRepository.getSingleTransport(id);
+			if(transpo==null){
 				return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_FAILED)
 						.msg(Constants.HTTP_EXPECTATION_FAILED_MESSAGE).statusCode(Constants.HTTP_EXPECTATION_FAILED_CODE)
 						.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error("there are no product for this id").entity();
