@@ -4,6 +4,7 @@ package com.farm.controllers;
 
 
 
+import com.farm.repositories.TransportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.farm.entities.Product;
 import com.farm.entities.User;
+import com.farm.entities.Transport;
 import com.farm.services.ProductService;
 import com.farm.settings.Constants;
 import com.farm.settings.Pagination;
@@ -52,6 +54,8 @@ public class ProductController {
 	private ProductService productService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private TransportRepository transportRepository;
 
 
 	@PostMapping("/product")
@@ -131,6 +135,51 @@ public class ProductController {
 								.msg(Constants.HTTP_EXPECTATION_FAILED_MESSAGE).statusCode(Constants.HTTP_EXPECTATION_FAILED_CODE)
 								.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error("there are no product for this id").entity();
 					}
+			prosing= productService.getSinglePro(id);
+			System.out.println("hello");
+			System.out.println(prosing.getCreatedAt());
+
+			return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_SUCCESS)
+					.msg("Products get successfully!").statusCode(Constants.HTTP_SUCCESS_CODE)
+					.isSuccess(Constants.HTTP_RESULT_SUCCESS_BOOL).data(prosing).entity();
+
+		} catch (Exception e) {
+
+			return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_FAILED)
+					.msg(Constants.HTTP_EXPECTATION_FAILED_MESSAGE).statusCode(Constants.HTTP_EXPECTATION_FAILED_CODE)
+					.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error(e.toString()).entity();
+		}
+	}
+	@PostMapping("/transport")
+	public ResponseEntity<?> addTransport(@RequestBody Transport transport) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		User user = userService.getOneByEmail(email);
+
+
+		System.out.println(user.getId());
+		transport.setUser(user);
+		Transport saveUser = transportRepository.save(transport);
+		return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_SUCCESS).msg("Transport added successfully!!!")
+				.statusCode(Constants.HTTP_SUCCESS_CODE).isSuccess(Constants.HTTP_RESULT_SUCCESS_BOOL).data(saveUser)
+				.entity();
+
+	}
+	@GetMapping("/product/{id}")
+	public ResponseEntity<?> getTransportOfUser(@PathVariable Integer id){
+		try {
+			System.out.println("keerthy7hjk7keerthy");
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String email = authentication.getName();
+			User user = userService.getOneByEmail(email);
+
+
+			Product prosing= productService.getSinglePro(id);
+			if(prosing==null){
+				return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_FAILED)
+						.msg(Constants.HTTP_EXPECTATION_FAILED_MESSAGE).statusCode(Constants.HTTP_EXPECTATION_FAILED_CODE)
+						.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error("there are no product for this id").entity();
+			}
 			prosing= productService.getSinglePro(id);
 			System.out.println("hello");
 			System.out.println(prosing.getCreatedAt());
