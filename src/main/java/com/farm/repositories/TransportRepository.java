@@ -11,11 +11,11 @@ import java.util.List;
 
 
 public interface TransportRepository extends JpaRepository<Transport, Integer> {
-    @Query(value = "SELECT * from  transport where id=:id and deleted_at is null" , nativeQuery = true)
+    @Query(value = "SELECT * from  transports where id=:id and deleted_at is null" , nativeQuery = true)
     Transport getSingleTransport(Integer id);
 //    hhuhu
 
-    Product findByIdd(Integer id);
+
 
 
 

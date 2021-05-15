@@ -180,7 +180,7 @@ public class ProductController {
 						.msg(Constants.HTTP_EXPECTATION_FAILED_MESSAGE).statusCode(Constants.HTTP_EXPECTATION_FAILED_CODE)
 						.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error("there are no product for this id").entity();
 			}
-			prosing= productService.getSinglePro(id);
+			Transport prosing= transportRepository.getSingleTransport(id);
 			System.out.println("hello");
 			System.out.println(prosing.getCreatedAt());
 
