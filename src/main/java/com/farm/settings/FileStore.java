@@ -1,6 +1,7 @@
 
 package com.farm.settings;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.UUID;
@@ -185,16 +186,19 @@ public class FileStore {
 	
 	
 	public FileSaveResponse useravatarSave(MultipartFile avatar) {
+		System.out.println(	avatar.isEmpty());
 		final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
 	
 		final String baseUri = Constants.BASE_URI+"/user/avatar/";
-		
-		
-		
+
+
+
 		try {
+
 
 			if(avatar.isEmpty())
 					{
+
 				return new FileSaveResponse(null, "avatar cannot be null", false);
 				
 			}
@@ -219,8 +223,10 @@ public class FileStore {
 			
 			String imageName =  UUID.randomUUID().toString().replaceAll("-", "") + extension ;
 			try {
-				
-				 OutputStream os = new FileOutputStream(urlusercover + imageName);
+				String fileLocation = new File(urlUseravatar).getAbsolutePath() + "\\" + imageName;
+				System.out.println(fileLocation);
+				System.out.println(new File(urlUseravatar).getAbsolutePath() + "\\" + imageName);
+				 OutputStream os = new FileOutputStream(fileLocation);
 				 os.write(avatar.getBytes());
 				 os.close();
 				return new FileSaveResponse(imageName ,null,true);
@@ -230,7 +236,7 @@ public class FileStore {
 			
 			
 		} catch (Exception e) {
-			System.out.println("is null");
+
 			return new FileSaveResponse(null,e.toString(),false);
 		}
 		

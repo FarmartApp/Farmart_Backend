@@ -69,7 +69,7 @@ public class UserController {
 		}
 	}
 	@PutMapping("/users/avatar")
-	public ResponseEntity<?> updateuseravatar(@RequestParam(value = "avatar", required = false) MultipartFile avatar) {
+	public ResponseEntity<?> updateuseravatar(@RequestParam(value = "avatar", required =false) MultipartFile avatar) {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		User getuser = userService.getOneByEmail(email);
 

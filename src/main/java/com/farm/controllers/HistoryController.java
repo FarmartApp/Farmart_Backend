@@ -21,17 +21,8 @@ import java.util.List;
 @RequestMapping(Constants.BASE_URI)
 public class HistoryController {
 
-
 	@Autowired
 	private HistoryService historyService;
-	
-
-
-
-
-
-
-
 
 	@GetMapping("/hisory")
 	public ResponseEntity<?> getAllHistory(@RequestParam(required = false) Integer buyerId,@RequestParam(required = false) Integer sellerId) {
