@@ -58,8 +58,8 @@ public class UserController {
 
 
 			return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_SUCCESS)
-					.msg("Users get successfully!").statusCode(Constants.HTTP_SUCCESS_CODE)
-					.isSuccess(Constants.HTTP_RESULT_SUCCESS_BOOL).data("he llo").entity();
+					.msg("Users Edit successfully!").statusCode(Constants.HTTP_SUCCESS_CODE)
+					.isSuccess(Constants.HTTP_RESULT_SUCCESS_BOOL).data(saveUser).entity();
 
 		} catch (Exception e) {
 
@@ -77,9 +77,7 @@ public class UserController {
 		if (getuser == null) {
 			return FarmGenericResponse.builder().status(Constants.HTTP_RESULT_FAILED)
 					.msg("User get  not found").statusCode(Constants.HTTP_NOTFOUND_CODE)
-					.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error("Not found").entity();
-
-		}
+					.isSuccess(Constants.HTTP_RESULT_FAILED_BOOL).error("Not found").entity(); }
 		System.out.println("hhkhkhkhk");
 
 		FileSaveResponse saveavatar = filestore.useravatarSave(avatar);
